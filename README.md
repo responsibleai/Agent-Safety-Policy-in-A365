@@ -1,6 +1,8 @@
 # Set agent safety policy once in Microsoft Agent 365. Enforce it everywhere.
 
-IT and security admins can now author responsible AI policy in Agent 365, alongside the Purview, Defender, and Entra policies they already manage. They can apply it across their Foundry agents and rely on agent controls to evaluate it at runtime.
+Agent 365 Policies gives IT and security admins a central place to protect and govern their organization's agents. They can review default protection coverage from Microsoft Entra, Microsoft Purview, Microsoft Defender, and Microsoft SharePoint Online and OneDrive and assign that protection to eligible agents. They can also manage Work IQ permissions and identify security policies that need attention. Admins can create custom policies of four types: security for agents, security for autopilots, tool control, and AI safety. Tool control policies govern tools behind the Azure AI gateway. They can block operations or require approval for sensitive actions, and can be evaluated in audit mode before enforcement. AI safety policies bring Responsible AI protections, such as defenses against prompt attacks, harmful content, and sensitive data leakage, to agents at runtime.
+
+This post focuses on AI safety: Responsible AI controls for agents built on Microsoft Foundry. It shows how admins can assign Microsoft's recommended *Responsible AI safety controls* baseline or create a custom AI safety policy. These policies sit alongside the default protections from Entra, Purview, Defender, and SharePoint Online and OneDrive, and agent controls evaluates them each time an agent acts.
 
 <!-- TODO: add author names -->
 
@@ -13,7 +15,7 @@ IT and security admins can now author responsible AI policy in Agent 365, alongs
 - [Path 1: Assign the Microsoft-recommended baseline](#path-1-assign-the-microsoft-recommended-baseline)
 - [Path 2: Create a custom AI safety policy](#path-2-create-a-custom-ai-safety-policy)
 - [The controls in an AI safety policy](#the-controls-in-an-ai-safety-policy)
-- [One policy, composed from the controls you already trust](#one-policy-composed-from-the-controls-you-already-trust)
+- [Responsible AI policy alongside the protections you already use](#responsible-ai-policy-alongside-the-protections-you-already-use)
 - [From Agent 365 into Microsoft Foundry](#from-agent-365-into-microsoft-foundry)
 - [Assignment is not enforcement](#assignment-is-not-enforcement)
 - [Get started](#get-started)
@@ -25,11 +27,11 @@ IT and security admins can now author responsible AI policy in Agent 365, alongs
 
 As agents become part of everyday operations, IT and security leaders face a new question: who decides what an agent is allowed to do, and how does that decision hold when the agent actually acts?
 
-Picture an enterprise with agents in finance, customer service, and operations. One processes transactions, one handles account changes, and one retrieves and shares business information. Each team builds responsibly, with protections that fit its own agent.
+Picture an enterprise with agents in finance, customer service, and operations. One processes transactions, one handles account changes, and one retrieves and shares business information. Each team builds on different patterns, tools, and experiences, yet the same enterprise risks apply to all of them.
 
-But organizational policy doesn't stop at application boundaries. Identity must be verified before sensitive account changes. Confidential information must not be disclosed. Financial actions above a threshold need approval. Those are enterprise requirements, not application preferences, and asking every developer to interpret and implement them separately doesn't scale.
+But organizational policy doesn't stop at application boundaries. Identity must be verified before sensitive account changes. Confidential information must not be disclosed. Financial actions above a threshold require stronger controls. The risk isn't just what the agent can do; it's what it can do with access across the business.
 
-With this release, admins can author responsible AI policy for agents in Microsoft Agent 365, next to the Purview, Defender, and Entra policies they already manage. They write it once and apply it across their Foundry agents. Our managed runtime policy service, agent controls, then evaluates it each time an agent acts.
+With this release, admins write responsible AI policy once in Agent 365 and apply it across their Foundry agents. Agent controls, our managed runtime policy service, then evaluates it each time an agent acts.
 
 <!-- TODO: link to the agent controls launch blog -->
 
@@ -39,7 +41,7 @@ With this release, admins can author responsible AI policy for agents in Microso
 
 An admin knows the outcome they want. They shouldn't need to know which classifier, threshold, or intervention point gets them there.
 
-Everything starts on the **Policies** page in the Microsoft 365 admin center, under **Agent 365**. The Overview tab shows how much of the agent estate is covered by default protection, which security products still need configuration, and the preconfigured policies Microsoft recommends.
+Everything starts on the **Policies** page in the Microsoft 365 admin center, under **Agent 365**. The Overview tab shows how much of the agent estate is covered by default protection from Microsoft Entra, Microsoft Purview, Microsoft Defender, and Microsoft SharePoint Online and OneDrive. It also shows which of those products still need configuration, and the preconfigured policies Microsoft recommends.
 
 ![Agent 365 Policies overview in the Microsoft 365 admin center](images/01-policies-overview.png)
 
@@ -60,7 +62,7 @@ Both paths produce the same kind of policy, scoped to agents built on Microsoft 
 
 ### 1. Find the preconfigured policy
 
-Under **Preconfigured policies**, the *Responsible AI safety controls* card holds Microsoft-recommended controls for agents built on Microsoft Foundry. It covers prompt attacks, harmful content, protected material, sensitive data leakage, and task drift.
+Under **Preconfigured policies**, the *Responsible AI safety controls* card holds Microsoft-recommended controls for agents built on Microsoft Foundry. It covers prompt attacks, harmful content, protected material, sensitive data leakage, and task adherence.
 
 ![Responsible AI safety controls preconfigured policy card](images/02-rai-safety-controls-card.png)
 
@@ -91,7 +93,7 @@ That's it. The baseline is now assigned across your Foundry agents.
 
 ## Path 2: Create a custom AI safety policy
 
-When the baseline isn't the right fit, admins can build their own. Custom policies live on the **Configuration** tab of the Policies page, next to the other agent policies in the organization: security for agents, security for autopilots, tool control, and AI safety.
+When the baseline isn't the right fit, admins can build their own. Custom policies live on the **Configuration** tab of the Policies page, next to the other agent policies in the organization: security, tool control, and AI safety.
 
 ![Policies configuration tab listing existing agent policies](images/06-policies-configuration-tab.png)
 
@@ -99,7 +101,7 @@ Select **Create policy** to open a four-step wizard.
 
 ### Step 1: Basics
 
-Name the policy, add an optional description, and pick the policy type. For responsible AI runtime protection, choose **AI safety**: block harmful content and prompt attacks in agent inputs and outputs.
+Name the policy, add an optional description, and pick the policy type. For responsible AI runtime protection, choose **AI safety**: block harmful content and prompt attacks in agent inputs and outputs, and add data leakage controls.
 
 ![Create policy, Basics step](images/07-create-policy-basics.png)
 
@@ -122,7 +124,7 @@ Choose which agents the policy covers, the same way as in Path 1: all agents reg
 
 ### Step 4: Review
 
-Review the basics and every configured control before creating the policy. Applying an AI safety runtime policy activates the **A365 Content Safety Policy Operator** role, which enables managing responsible AI policies and sending agent content to Azure AI Content Safety for evaluation. Admins acknowledge this before selecting **Create**.
+Review the basics and every configured control before creating the policy. Applying an AI safety runtime policy activates the **A365 Content Safety Policy Operator** role, which enables managing responsible AI policy and evaluating it at runtime.
 
 ![Create policy, Review step](images/10-create-policy-review.png)
 
@@ -146,36 +148,32 @@ Both paths draw on the same set of 11 controls, grouped by the risk they address
 | Sensitive data leakage | PII (preview) | Personally identifiable information | Input, tool call, tool response, output | Always blocked |
 | Task drift | Task adherence (preview) | Tool calls that deviate from the agent's assigned task | Tool call | Always blocked |
 
-
 ---
 
-## One policy, composed from the controls you already trust
+## Responsible AI policy alongside the protections you already use
 
-Admins already rely on Microsoft Purview for data protection, Microsoft Defender for threat protection, and Microsoft Entra for identity. Agent policy shouldn't sit beside those as a separate system.
+Admins already rely on Microsoft Entra for identity, Microsoft Purview for data protection, Microsoft Defender for threat protection, and Microsoft SharePoint Online and OneDrive for content access and sharing. Agent 365 shows default protection coverage from these products in one place, and each protection is enabled and configured in its own admin portal.
 
-When an admin applies a policy in Agent 365, it is assembled into a single ACS policy entity. That entity combines the deterministic rules, the relevant Purview, Defender, and Entra policies, and Microsoft's default responsible AI protections.
+Responsible AI policy is authored directly in Agent 365. When an admin applies an AI safety policy, it is compiled into a single ACS policy entity that combines the controls the admin configured with Microsoft's default responsible AI protections.
 
-The result is one artifact per policy, with one identity and one version. At runtime it produces one decision, not a separate verdict from each product for the agent to reconcile.
-
-Deterministic requirements, such as transaction limits, allowed tools, and approved destinations, are expressed in Rego, the open policy language that ACS uses. A requirement written for one agent works the same way for the next.
+The result is one artifact per policy, with one identity and one version. At runtime, agent controls evaluates it and returns one decision.
 
 ---
 
 ## From Agent 365 into Microsoft Foundry
 
-Agent 365 binds the policy through Azure Policy, the same mechanism enterprises already use for Azure governance and compliance. Agent 365 also resolves which subscriptions the policy should reach, so the admin doesn't have to map them by hand.
+Agent 365 binds the policy through Azure Policy, the same mechanism enterprises already use for Azure governance and compliance. Agent 365 also resolves which subscriptions the policy should reach, so it goes where it needs to go without needing one policy per subscription.
 
 From there, the policy flows down into Microsoft Foundry:
 
 - **Operators** see the inherited organizational policy and its compliance state in the Foundry **Govern** tab.
 - **Developers** see its effect on their agents in the **Guardrails** tab. They can add stricter controls on top.
 
-Developers and admins look at the same agent from different sides. A developer knows the agent's tools, users, and workflow, and adds safeguards that fit it, such as stopping a support agent from promising unauthorized refunds. An admin sets requirements that hold across every agent. Neither set should cancel the other.
+Developers and admins look at the same agent from different sides. A developer knows the agent's tools, users, and workflow, and adds safeguards that fit it, such as stopping a support agent from prompting for a payment card number or showing sensitive data in an answer.
 
 One principle holds throughout: **augment, never weaken.** A developer can tighten policy on their own agent. They can't remove or loosen what the organization requires.
 
 <!-- TODO: link to the Foundry Govern blog -->
-
 
 ---
 
@@ -187,7 +185,6 @@ In preview, admins can:
 - create a custom AI safety policy, choosing controls, intervention points, and blocking levels;
 - scope either policy to all Foundry agents registered with Agent 365, or to specific agents;
 - rely on agent controls to evaluate it at runtime.
-
 
 ---
 
@@ -210,4 +207,4 @@ flowchart TB
     API --> ACS
 ```
 
-The future of enterprise AI isn't only about how capable agents become. It's about how confidently organizations can delegate work to them. Agent 365 defines what the organization requires, agent controls decides at runtime, and Foundry helps developers build agents that meet it.
+The future of enterprise AI isn't only about how capable agents become. It's about how confidently organizations can delegate work to them. Agent 365 defines what the organization requires, agent developers add their own constraints where their agents need them, and agent controls enforces those decisions at runtime.
