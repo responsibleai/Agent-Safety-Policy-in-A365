@@ -25,7 +25,7 @@ Don't include credentials, customer information, or other sensitive data. Don't 
 1. Search [existing pull requests](https://github.com/responsibleai/Agent-Safety-Policy-in-A365/pulls) to avoid duplicating effort. For larger changes, open an issue to discuss the proposal first.
 1. Create a branch for your changes. If you don't have write access and can't fork the repository, open an issue to coordinate with the maintainers.
 1. Make focused changes that follow the [Microsoft Writing Style Guide](https://learn.microsoft.com/style-guide/welcome/) and the style of the existing article.
-1. Preview [README.md](README.md) and check any changed links and screenshots in [images/](images/). Use meaningful alt text, keep image links relative, and remove sensitive information from screenshots.
+1. Preview the Markdown you change, including [blogpost.md](blogpost.md) and [README.md](README.md), and check links and screenshots in [images/](images/). Use meaningful alt text, keep image links relative, and remove sensitive information from screenshots.
 1. Commit your changes with a descriptive message and push your branch.
 1. Open a pull request against `main`. Describe what changed and why, and link any related issue.
 1. Complete any CLA requirements and respond to reviewer feedback.
